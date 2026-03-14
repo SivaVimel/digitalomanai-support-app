@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support — DigitalOman.ai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary: #0a0a0c;
+    --bg-secondary: #111115;
+    --bg-card: #16161b;
+    --bg-card-hover: #1c1c22;
+    --border: #2a2a32;
+    --border-accent: #00bcd4;
+    --text-primary: #f0f0f5;
+    --text-secondary: #a0a0b0;
+    --text-muted: #6a6a7a;
+    --accent-cyan: #00e5ff;
+    --accent-cyan-dim: #00bcd4;
+    --accent-cyan-glow: rgba(0, 229, 255, 0.08);
+    --accent-green: #4ade80;
+    --accent-amber: #fbbf24;
+    --accent-rose: #fb7185;
+    --gradient-cyan: linear-gradient(135deg, #00e5ff 0%, #00bcd4 100%);
+    --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: #2a2a32 transparent;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.75;
+    font-size: 16px;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: rgba(0, 229, 255, 0.2);
+    color: var(--text-primary);
+  }
+
+  /* — Ambient — */
+  .ambient {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .ambient::before {
+    content: '';
+    position: absolute;
+    top: -30%;
+    left: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(0, 229, 255, 0.04) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: float1 20s ease-in-out infinite;
+  }
+  .ambient::after {
+    content: '';
+    position: absolute;
+    bottom: -20%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(0, 188, 212, 0.03) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: float2 25s ease-in-out infinite;
+  }
+  @keyframes float1 { 0%, 100% { transform: translate(0,0); } 50% { transform: translate(80px,60px); } }
+  @keyframes float2 { 0%, 100% { transform: translate(0,0); } 50% { transform: translate(-60px,-80px); } }
+
+  /* — Header — */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10, 10, 12, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .header-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+  .logo-mark {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: var(--gradient-cyan);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--bg-primary);
+  }
+  .logo-text { font-size: 17px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.3px; }
+  .logo-text span { color: var(--accent-cyan); }
+  .header-badge {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    background: var(--bg-card);
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    letter-spacing: 0.5px;
+  }
+
+  /* — Content — */
+  .content-wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* — Hero — */
+  .hero {
+    padding: 80px 0 48px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent-cyan);
+    background: var(--accent-cyan-glow);
+    border: 1px solid rgba(0, 229, 255, 0.15);
+    padding: 6px 16px;
+    border-radius: 100px;
+    margin-bottom: 24px;
+  }
+  .hero-label::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-cyan);
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+  @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .hero h1 {
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 700;
+    letter-spacing: -1.5px;
+    line-height: 1.15;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+  }
+  .hero p {
+    font-size: 17px;
+    color: var(--text-secondary);
+    max-width: 540px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* — Quick Actions — */
+  .quick-actions {
+    padding: 40px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .quick-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 14px;
+  }
+  .quick-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    transition: all 0.25s ease;
+    text-decoration: none;
+    display: block;
+  }
+  .quick-card:hover {
+    border-color: rgba(0, 229, 255, 0.25);
+    background: var(--bg-card-hover);
+    transform: translateY(-2px);
+  }
+  .quick-card-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    font-size: 18px;
+  }
+  .quick-card-icon.cyan { background: rgba(0, 229, 255, 0.1); color: var(--accent-cyan); }
+  .quick-card-icon.green { background: rgba(74, 222, 128, 0.1); color: var(--accent-green); }
+  .quick-card-icon.amber { background: rgba(251, 191, 36, 0.1); color: var(--accent-amber); }
+  .quick-card h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+  }
+  .quick-card p {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* — Section Titles — */
+  .section-block {
+    padding: 48px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-block:last-child { border-bottom: none; }
+
+  .section-title-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .section-icon {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--accent-cyan);
+    background: var(--accent-cyan-glow);
+    border: 1px solid rgba(0, 229, 255, 0.12);
+    padding: 4px 10px;
+    border-radius: 6px;
+  }
+  .section-block h2 {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--text-primary);
+  }
+  .section-block > p {
+    color: var(--text-secondary);
+    font-size: 15.5px;
+    line-height: 1.8;
+    margin-bottom: 16px;
+  }
+
+  /* — FAQ Accordion — */
+  .faq-list { display: flex; flex-direction: column; gap: 10px; }
+  .faq-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .faq-item.active { border-color: rgba(0, 229, 255, 0.2); }
+  .faq-question {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 18px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 600;
+    text-align: left;
+    line-height: 1.4;
+    transition: color 0.2s;
+  }
+  .faq-question:hover { color: var(--accent-cyan); }
+  .faq-chevron {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    margin-left: 16px;
+    color: var(--text-muted);
+    transition: transform 0.3s ease, color 0.2s;
+  }
+  .faq-item.active .faq-chevron {
+    transform: rotate(180deg);
+    color: var(--accent-cyan);
+  }
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.35s ease;
+  }
+  .faq-item.active .faq-answer {
+    max-height: 500px;
+  }
+  .faq-answer-inner {
+    padding: 0 22px 20px;
+    color: var(--text-secondary);
+    font-size: 14.5px;
+    line-height: 1.75;
+  }
+
+  /* — Feature Guide — */
+  .guide-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+  }
+  .guide-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px;
+    transition: all 0.25s ease;
+  }
+  .guide-card:hover {
+    border-color: rgba(0, 229, 255, 0.15);
+    background: var(--bg-card-hover);
+  }
+  .guide-card-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--accent-cyan-dim);
+    margin-bottom: 10px;
+    display: block;
+  }
+  .guide-card h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+  .guide-card p {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+
+  /* — Troubleshooting — */
+  .trouble-list { display: flex; flex-direction: column; gap: 12px; }
+  .trouble-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px;
+  }
+  .trouble-item h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .trouble-badge {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .trouble-badge.fix { background: rgba(74, 222, 128, 0.1); color: var(--accent-green); }
+  .trouble-badge.tip { background: rgba(251, 191, 36, 0.1); color: var(--accent-amber); }
+  .trouble-item p {
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  /* — Contact — */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 14px;
+  }
+  .contact-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 24px;
+    text-align: center;
+    transition: all 0.25s ease;
+  }
+  .contact-card:hover {
+    border-color: rgba(0, 229, 255, 0.2);
+    background: var(--bg-card-hover);
+  }
+  .contact-card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--accent-cyan-glow);
+    border: 1px solid rgba(0, 229, 255, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    color: var(--accent-cyan);
+  }
+  .contact-card h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+  }
+  .contact-card p {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+  .contact-card a.contact-btn {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    color: var(--accent-cyan);
+    background: var(--accent-cyan-glow);
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    padding: 8px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .contact-card a.contact-btn:hover {
+    background: rgba(0, 229, 255, 0.15);
+    border-color: rgba(0, 229, 255, 0.4);
+  }
+
+  /* — Info Box — */
+  .info-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent-cyan-dim);
+    border-radius: 0 10px 10px 0;
+    padding: 20px 24px;
+    margin: 20px 0;
+  }
+  .info-box p {
+    font-size: 14.5px;
+    color: var(--text-secondary);
+    margin-bottom: 0;
+  }
+  .info-box p + p { margin-top: 10px; }
+  .info-box strong { color: var(--text-primary); }
+
+  .inline-code {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 2px 7px;
+    border-radius: 4px;
+    color: var(--accent-cyan);
+  }
+
+  a.policy-link {
+    color: var(--accent-cyan-dim);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.2s;
+  }
+  a.policy-link:hover { color: var(--accent-cyan); }
+
+  /* — Footer — */
+  .site-footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 48px 24px;
+    text-align: center;
+  }
+  .footer-inner { max-width: 860px; margin: 0 auto; }
+  .footer-logo { font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
+  .footer-logo span { color: var(--accent-cyan); }
+  .footer-text { font-size: 13px; color: var(--text-muted); line-height: 1.7; }
+  .footer-divider { width: 40px; height: 1px; background: var(--border); margin: 24px auto; }
+  .footer-links { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; }
+  .footer-links a { font-size: 13px; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--accent-cyan); }
+
+  @media (max-width: 600px) {
+    .hero { padding: 56px 0 36px; }
+    .section-block { padding: 36px 0; }
+    .section-title-row { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .quick-actions-grid, .guide-grid, .contact-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ambient"></div>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="#" class="logo">
+      <div class="logo-mark">D</div>
+      <div class="logo-text">Digital<span>Oman</span>.ai</div>
+    </a>
+    <div class="header-badge">SUPPORT</div>
+  </div>
+</header>
+
+<main class="content-wrapper">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-label">Help Center</div>
+    <h1>How Can We Help?</h1>
+    <p>Find answers, troubleshoot issues, and learn how to get the most out of DigitalOman.ai — your privacy-first AI assistant.</p>
+  </section>
+
+  <!-- Quick Actions -->
+  <section class="quick-actions">
+    <div class="quick-actions-grid">
+      <a href="#faq" class="quick-card">
+        <div class="quick-card-icon cyan">?</div>
+        <h3>Frequently Asked Questions</h3>
+        <p>Quick answers to the most common questions about the app.</p>
+      </a>
+      <a href="#features" class="quick-card">
+        <div class="quick-card-icon green">&#9881;</div>
+        <h3>Feature Guides</h3>
+        <p>Learn how to use AI models, CoWork tools, Internet search, and more.</p>
+      </a>
+      <a href="#troubleshooting" class="quick-card">
+        <div class="quick-card-icon amber">&#9888;</div>
+        <h3>Troubleshooting</h3>
+        <p>Resolve common issues with connectivity, models, and features.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section-block" id="faq">
+    <div class="section-title-row">
+      <span class="section-icon">FAQ</span>
+      <h2>Frequently Asked Questions</h2>
+    </div>
+
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          What is DigitalOman.ai?
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">DigitalOman.ai is a privacy-first AI assistant app that lets you chat with AI models — either locally on your device (fully offline) or through cloud providers you connect via API. It also includes productivity tools like Gmail integration, Notes, To-Do lists, Transcription, and Internet search — all designed to keep your data on your device.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Is my data private and secure?
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">Yes. All your conversations, files, credentials, and notes are stored exclusively on your device. We do not collect, transmit, or have access to your personal data. When using a local AI model, no data leaves your device at all. For full details, please read our <a href="https://appprivacy.digitaloman.ai" class="policy-link">Privacy Policy</a>.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Can I use the app completely offline?
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">Yes! The app ships with a default local LLM that runs entirely on your device. You can also upload your own local models. In offline mode, AI processing, image analysis (via ML toolkit), notes, to-do, and transcription all work without an internet connection. Features like Internet search and cloud AI models naturally require connectivity.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          How do I connect a cloud AI model?
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">Tap the <strong>AI button</strong> in the chatbox, then select <strong>"Import your AI API"</strong>. Choose a provider (Gemini, ChatGPT, Claude, Groq, Mistral, DeepSeek, or Qwen), enter your API key, and select a model from the dropdown. You can also tap <strong>"Add Custom API"</strong> to connect any OpenAI-compatible endpoint like Ollama, LM Studio, or OpenRouter. Your API keys are stored only on your device.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          What is Ad Score?
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">Ad Score is displayed in the golden box in the app header. It represents rewards you earn through interacting with the app's ad-supported features. The ads are served via Google AdMob and help keep the app free for all users.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          How many conversations are saved?
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">The app retains your 5 most recent conversations. Older conversations are automatically deleted for data security and storage efficiency. You can also manually delete any conversation at any time from the Chat History panel.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          How does Gmail integration work?
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">In CoWork, tap <strong>Gmail</strong> and sign in with your Gmail address and an <strong>app password</strong> (not your regular password). Your credentials are stored only on your device. Once connected, you can view recent emails, get AI-powered summaries and overviews, compose emails with AI enhancement, and generate smart replies — all processed through your selected AI model.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Can I send images and files to the AI?
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">Yes! Tap the <strong>Add button (+)</strong> in the chatbox and choose Image, Camera, or File. For images, if your selected AI model supports vision, the image is sent directly for analysis. If not, the app's built-in ML toolkit extracts text from the image and passes it to the AI. For PDFs and files, relevant text is extracted and sent to your AI model for analysis.</div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Feature Guides -->
+  <section class="section-block" id="features">
+    <div class="section-title-row">
+      <span class="section-icon">&#10148;</span>
+      <h2>Feature Guides</h2>
+    </div>
+    <p>A quick overview of the core features available in DigitalOman.ai.</p>
+
+    <div class="guide-grid">
+      <div class="guide-card">
+        <span class="guide-card-tag">AI Models</span>
+        <h3>Select &amp; Import AI</h3>
+        <p>Use the built-in local LLM, upload your own models, or connect cloud providers (Gemini, ChatGPT, Claude, Groq, Mistral, DeepSeek, Qwen) and custom OpenAI-compatible APIs.</p>
+      </div>
+      <div class="guide-card">
+        <span class="guide-card-tag">Internet</span>
+        <h3>Web Search &amp; Browse</h3>
+        <p>Activate the Internet button to search the web — filter by News, Location, Images, or Videos. Click results to visit the source and use the Open Assistant to summarize any page.</p>
+      </div>
+      <div class="guide-card">
+        <span class="guide-card-tag">CoWork</span>
+        <h3>Gmail Integration</h3>
+        <p>Connect your Gmail to read, summarize, and reply to emails with AI assistance. Compose new emails with AI enhancement and file attachments. Disconnect any time.</p>
+      </div>
+      <div class="guide-card">
+        <span class="guide-card-tag">CoWork</span>
+        <h3>Notes &amp; To-Do</h3>
+        <p>Create notes with AI Enhance to generate polished versions alongside your originals. Export as TXT, PDF, or DOCX. Manage tasks with dates — upcoming tasks inform your AI for context.</p>
+      </div>
+      <div class="guide-card">
+        <span class="guide-card-tag">CoWork</span>
+        <h3>Transcribe</h3>
+        <p>Record speech for real-time transcription. Summarize transcripts with AI and optionally save them to Notes for future reference.</p>
+      </div>
+      <div class="guide-card">
+        <span class="guide-card-tag">Personalization</span>
+        <h3>Custom Instructions</h3>
+        <p>Set persistent instructions (e.g., "Respond in one sentence") via the Add button. Your instruction is applied to every message sent to any AI model you use.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Troubleshooting -->
+  <section class="section-block" id="troubleshooting">
+    <div class="section-title-row">
+      <span class="section-icon">&#9881;</span>
+      <h2>Troubleshooting</h2>
+    </div>
+    <p>Common issues and how to resolve them.</p>
+
+    <div class="trouble-list">
+      <div class="trouble-item">
+        <h3><span class="trouble-badge fix">Fix</span>AI model not responding</h3>
+        <p>If using a cloud model, verify your API key is correct and has not expired. Check your internet connection. If using a local model, ensure the model file was fully downloaded and is compatible. Try switching to the default local LLM to confirm the app is working.</p>
+      </div>
+      <div class="trouble-item">
+        <h3><span class="trouble-badge fix">Fix</span>Image analysis not working</h3>
+        <p>Make sure you have granted camera and storage permissions. If your AI model doesn't support image recognition, the app will automatically use ML toolkit for text extraction — ensure the image contains readable text. For best results with images, use a cloud model with vision support (e.g., GPT-4o, Gemini).</p>
+      </div>
+      <div class="trouble-item">
+        <h3><span class="trouble-badge fix">Fix</span>Gmail connection failed</h3>
+        <p>Ensure you are using an <strong>app password</strong>, not your regular Gmail password. You can generate an app password at <a href="https://myaccount.google.com/apppasswords" class="policy-link" target="_blank" rel="noopener">myaccount.google.com/apppasswords</a>. Two-factor authentication must be enabled on your Google account to create an app password.</p>
+      </div>
+      <div class="trouble-item">
+        <h3><span class="trouble-badge fix">Fix</span>Internet search returns no results</h3>
+        <p>Check your internet connection. If you have a filter selected (News, Location, Images, or Video), try deselecting it to perform a general web search instead. Some queries may return limited results depending on the search category.</p>
+      </div>
+      <div class="trouble-item">
+        <h3><span class="trouble-badge tip">Tip</span>Custom API not connecting</h3>
+        <p>When adding a custom OpenAI-compatible API, double-check the endpoint URL includes the full path (e.g., <span class="inline-code">http://localhost:11434/v1</span> for Ollama). If using a local server, make sure it's running. For bearer token authentication, verify the API key is correct. Use the quick presets (Ollama, LM Studio, OpenRouter) for auto-filled configurations.</p>
+      </div>
+      <div class="trouble-item">
+        <h3><span class="trouble-badge tip">Tip</span>Transcription quality is low</h3>
+        <p>Speak clearly and minimize background noise. The transcription engine works best in quiet environments. If possible, hold your device closer to the speaker. After transcription, use the AI Summarize feature to clean up and structure the output.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact / Get Help -->
+  <section class="section-block" id="contact">
+    <div class="section-title-row">
+      <span class="section-icon">&#9993;</span>
+      <h2>Still Need Help?</h2>
+    </div>
+    <p>If you couldn't find what you were looking for, reach out to us directly. We typically respond within 24 hours.</p>
+
+    <div class="contact-grid">
+      <div class="contact-card">
+        <div class="contact-card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <h3>Email Support</h3>
+        <p>Send us a detailed description of your issue and we'll get back to you.</p>
+        <a href="mailto:support@digitaloman.ai" class="contact-btn">support@digitaloman.ai</a>
+      </div>
+      <div class="contact-card">
+        <div class="contact-card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+        </div>
+        <h3>Feature Requests</h3>
+        <p>Have an idea for a new CoWork feature or improvement? We'd love to hear it.</p>
+        <a href="mailto:support@digitaloman.ai?subject=Feature%20Request" class="contact-btn">Send Suggestion</a>
+      </div>
+      <div class="contact-card">
+        <div class="contact-card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <h3>Report a Bug</h3>
+        <p>Found something broken? Let us know with steps to reproduce and we'll fix it fast.</p>
+        <a href="mailto:support@digitaloman.ai?subject=Bug%20Report" class="contact-btn">Report Bug</a>
+      </div>
+    </div>
+
+    <div class="info-box" style="margin-top: 28px;">
+      <p><strong>When contacting support, please include:</strong> Your device model, operating system version, the AI model you were using (local or cloud), and a description of the issue or steps to reproduce it. This helps us resolve your issue faster.</p>
+    </div>
+  </section>
+
+  <!-- App Info -->
+  <section class="section-block">
+    <div class="section-title-row">
+      <span class="section-icon">i</span>
+      <h2>About DigitalOman.ai</h2>
+    </div>
+    <p>DigitalOman.ai is built with one goal: to provide a safe, private environment where you can chat and seek answers without exposing your personal data. You have the freedom to connect your own local or cloud AI models, and use the platform for personal productivity — with more CoWork features on the way.</p>
+    <div class="info-box">
+      <p><strong>Privacy Policy:</strong> <a href="https://appprivacy.digitaloman.ai" class="policy-link">appprivacy.digitaloman.ai</a></p>
+      <p><strong>Version:</strong> Check your app's Settings for the current version number.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-logo">Digital<span>Oman</span>.ai</div>
+    <p class="footer-text">Privacy-first AI assistant — your data stays yours.</p>
+    <div class="footer-divider"></div>
+    <div class="footer-links">
+      <a href="https://appprivacy.digitaloman.ai">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="mailto:support@digitaloman.ai">Contact</a>
+    </div>
+    <p class="footer-text" style="margin-top: 24px;">&copy; 2026 DigitalOman.ai. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  function toggleFaq(btn) {
+    const item = btn.parentElement;
+    const isActive = item.classList.contains('active');
+    // Close all
+    document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('active'));
+    // Open clicked if it was closed
+    if (!isActive) item.classList.add('active');
+  }
+</script>
+
+</body>
+</html>
